@@ -10,23 +10,16 @@ export default function App() {
 
   if (!isReady) {
     return (
-      <View>
         <AppLoading
           startAsync={bootstrap}
           onFinish={() => setIsReady(true)}
           onError={(err) => console.log(err)}
         />
-      </View>
     );
   }
 
   return (
     <AppNavigation />
-
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
   );
 }
 
