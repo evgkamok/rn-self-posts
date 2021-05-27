@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 import { Post } from "../components/Post";
 import { DATA } from "../data";
 
+
 export const MainScreen = ({ navigation }) => {
   const openPostHandler = (post) => {
-    navigation.navigate("PostScreen", { postId: post.id, date: post.date });
+    navigation.navigate("PostScreen", { postId: post.id, date: post.date, booked: post.booked });
   };
 
   return (
@@ -27,3 +28,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+

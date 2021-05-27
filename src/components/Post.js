@@ -27,6 +27,14 @@ export const Post = ({ post, onOpen }) => {
   );
 };
 
+// Post.navigationOptions = ({ navigator }) => {
+//   const date = navigator.getParam('date')
+//   return {
+//     headerTitlte: `POSSSSS`
+//   }
+// }
+
+
 const styles = StyleSheet.create({
   post: {
     marginBottom: 15,

@@ -11,7 +11,7 @@ import {
 import { DATA } from "../data";
 import { THEME } from "../theme";
 
-export const PostScreen = ({ route, navigation }) => {
+export const PostScreen = ({ route }) => {
   const { postId } = route.params;
   const post = DATA.find((post) => post.id === postId);
 
