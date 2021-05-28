@@ -1,14 +1,17 @@
 import React from "react";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { Platform, Text } from "react-native";
+import { Platform, Text, View, Button } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { MainScreen } from "../screens/MainScreen";
 import { PostScreen } from "../screens/PostScreen";
+import { BookedScreen } from "../screens/BookedScreen";
+import { AboutScreen } from "../screens/AboutScreen";
 import { THEME } from "../theme";
-
-const Stack = createStackNavigator();
+import { Ionicons } from "@expo/vector-icons";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -57,21 +60,110 @@ const navHeaderOptionsPostScreen = ({ route }) => {
   };
 };
 
-export const AppNavigation = () => {
+const MainNavigatorStack = createStackNavigator();
+
+const MainNavigator = () => {
+  return (
+    <MainNavigatorStack.Navigator screenOptions={defaultScreenOptions}>
+      <MainNavigatorStack.Screen
+        name="MainScreen"
+        component={MainScreen}
+        options={navHeaderOptionsMainScreen}
+      />
+      <MainNavigatorStack.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={navHeaderOptionsPostScreen}
+      />
+    </MainNavigatorStack.Navigator>
+  );
+};
+
+////////
+const BookedNavigatorStack = createStackNavigator();
+const BookedNavigator = () => {
+  return (
+    <BookedNavigatorStack.Navigator screenOptions={defaultScreenOptions}>
+      <BookedNavigatorStack.Screen
+        name="BookedPostsScreen"
+        component={BookedScreen}
+        options={{
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+              <Item
+                title="header menu"
+                iconName="ios-menu"
+                onPress={() => console.log("PRESS MENU")}
+              />
+            </HeaderButtons>
+          ),
+        }}
+      />
+    </BookedNavigatorStack.Navigator>
+  );
+};
+////////
+
+const Tab = Platform.OS === 'android' ? createMaterialBottomTabNavigator() : createBottomTabNavigator();
+
+export const AppNavigator = () => {
+  const defineIconColor = (focused) => {
+    const devicePlatform = Platform.OS;
+
+    if (devicePlatform === "android") {
+      if (focused) {
+        return "#fff";
+      } else {
+        return "gray";
+      }
+    }
+
+    if (devicePlatform === "ios") {
+      if (focused) {
+        return THEME.MAIN_COLOR;
+      } else {
+        return "gray";
+      }
+    }
+  };
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={defaultScreenOptions}>
-        <Stack.Screen
-          name="MainScreen"
-          component={MainScreen}
-          options={navHeaderOptionsMainScreen}
+      <Tab.Navigator
+        shifting={true}
+        barStyle={{
+          backgroundColor: THEME.MAIN_COLOR,
+        }}
+      >
+        <Tab.Screen
+          name="Main"
+          component={MainNavigator}
+          options={{
+            tabBarLabel: "Posts",
+            tabBarIcon: ({ color, size, focused }) => (
+              <Ionicons
+                name="ios-albums"
+                color={defineIconColor(focused)}
+                size={25}
+              />
+            ),
+          }}
         />
-        <Stack.Screen
-          name="PostScreen"
-          component={PostScreen}
-          options={navHeaderOptionsPostScreen}
+        <Tab.Screen
+          name="Booked"
+          component={BookedNavigator}
+          options={{
+            tabBarLabel: "Booked",
+            tabBarIcon: ({ color, size, focused }) => (
+              <Ionicons
+                name="ios-star"
+                color={defineIconColor(focused)}
+                size={25}
+              />
+            ),
+          }}
         />
-      </Stack.Navigator>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
