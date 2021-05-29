@@ -12,6 +12,7 @@ import { BookedScreen } from "../screens/BookedScreen";
 import { AboutScreen } from "../screens/AboutScreen";
 import { THEME } from "../theme";
 import { Ionicons } from "@expo/vector-icons";
+import { Post } from "../components/Post";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -43,6 +44,7 @@ const navHeaderOptionsMainScreen = {
 };
 
 const navHeaderOptionsPostScreen = ({ route }) => {
+  
   const date = new Date(route.params.date).toLocaleDateString();
   const iconName = route.params.booked ? "ios-star" : "ios-star-outline";
 
@@ -75,6 +77,10 @@ const MainNavigator = () => {
         component={PostScreen}
         options={navHeaderOptionsPostScreen}
       />
+      <MainNavigatorStack.Screen
+        name="Post"
+        component={Post}
+      />
     </MainNavigatorStack.Navigator>
   );
 };
@@ -104,7 +110,10 @@ const BookedNavigator = () => {
 };
 ////////
 
-const Tab = Platform.OS === 'android' ? createMaterialBottomTabNavigator() : createBottomTabNavigator();
+const Tab =
+  Platform.OS === "android"
+    ? createMaterialBottomTabNavigator()
+    : createBottomTabNavigator();
 
 export const AppNavigator = () => {
   const defineIconColor = (focused) => {

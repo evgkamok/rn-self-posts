@@ -2,7 +2,11 @@ import React from "react";
 import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 import { Post } from "../components/Post";
 
+
+
+
 export const AboutScreen = ( props ) => {
+
   return (
     <View style={styles.main}>
       <Text>About Screen</Text>

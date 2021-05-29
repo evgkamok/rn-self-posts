@@ -1,31 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, FlatList } from "react-native";
-import { Post } from "../components/Post";
+import { PostList } from "../components/PostList";
 import { DATA } from "../data";
 
-
 export const MainScreen = ({ navigation }) => {
+
   const openPostHandler = (post) => {
-    navigation.navigate("PostScreen", { postId: post.id, date: post.date, booked: post.booked });
+    navigation.navigate("PostScreen", {
+      postId: post.id,
+      date: post.date,
+      booked: post.booked,
+    });
   };
 
   return (
-    <View>
-      <Text>Main Screen</Text>
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Post post={item} onOpen={openPostHandler} />}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </View>
+    <PostList data={DATA} onOpen={openPostHandler} />
   );
 };
-
-const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
-

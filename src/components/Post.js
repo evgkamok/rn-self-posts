@@ -1,4 +1,3 @@
-import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -10,8 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-
 export const Post = ({ post, onOpen }) => {
+
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={() => onOpen(post)}>
       <View style={styles.post}>
@@ -26,14 +25,6 @@ export const Post = ({ post, onOpen }) => {
     </TouchableOpacity>
   );
 };
-
-// Post.navigationOptions = ({ navigator }) => {
-//   const date = navigator.getParam('date')
-//   return {
-//     headerTitlte: `POSSSSS`
-//   }
-// }
-
 
 const styles = StyleSheet.create({
   post: {
