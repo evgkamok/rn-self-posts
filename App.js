@@ -1,9 +1,8 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import AppLoading from "expo-app-loading";
 import { bootstrap } from "./src/bootstrap";
-import { AppNavigator } from "./src/navigation/AppNavigation";
+import { RootNavigator } from "./src/navigation/RootNavigator";
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -21,7 +20,7 @@ export default function App() {
   }
 
   return (
-    <AppNavigator />
+      <RootNavigator />
   );
 }
 
@@ -33,3 +32,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+

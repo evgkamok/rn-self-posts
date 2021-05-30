@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 
-export const AboutScreen = ( props ) => {
+
+export const CreatPostScreen = ( props ) => {
+
   return (
     <View style={styles.main}>
-      <Text>About Screen</Text>
-      <Button title="Navigate" onPress={ () => {props.navigation.navigate("CreatePost")}}/> 
+      <Text>Create Post Screen</Text>
+      <Button title="Navigate" onPress={ () => {props.navigation.navigate("About")}}/> 
     </View>
   );
 };
