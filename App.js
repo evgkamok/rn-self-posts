@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Provider } from "react-redux";
 import { StyleSheet, View } from "react-native";
 import AppLoading from "expo-app-loading";
 import { bootstrap } from "./src/bootstrap";
 import { RootNavigator } from "./src/navigation/RootNavigator";
+import store from "./src/store/index";
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -20,7 +22,9 @@ export default function App() {
   }
 
   return (
+    <Provider store={store}>
       <RootNavigator />
+    </Provider>
   );
 }
 
@@ -32,4 +36,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
