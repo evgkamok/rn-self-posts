@@ -8,15 +8,17 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { DATA } from "../data";
 import { THEME } from "../theme";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleBooked, deletePost } from "../store/reducers/postsReducer";
 
 export const PostScreen = ({ route, navigation }) => {
-  const { postId, booked } = route.params;
-  const post = DATA.find((post) => post.id === postId);
   const dispatch = useDispatch();
+  const { postId, booked } = route.params;
+  const post = useSelector((state) =>
+    state.posts.allPosts.find((post) => post.id === postId)
+  );
+
 
   const toggleBookedHandler = useCallback(() => {
     dispatch(toggleBooked(postId));
@@ -39,7 +41,7 @@ export const PostScreen = ({ route, navigation }) => {
         {
           text: "Yes",
           onPress: () => {
-            navigation.navigate("MainScreen")
+            navigation.navigate("MainScreen");
             dispatch(deletePost(postId));
           },
           style: "destructive",
@@ -48,6 +50,10 @@ export const PostScreen = ({ route, navigation }) => {
       { cancelable: true }
     );
   };
+
+  if (!post) {
+    return null
+  }
 
   return (
     <ScrollView>

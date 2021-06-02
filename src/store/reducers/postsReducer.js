@@ -1,5 +1,5 @@
 import { DATA } from "../../data";
-import { DELETE_POST, LOAD_POSTS, TOGGLE_BOOKED } from "../types";
+import { CREATE_POST, DELETE_POST, LOAD_POSTS, TOGGLE_BOOKED } from "../types";
 
 const initialState = {
   allPosts: null,
@@ -31,11 +31,17 @@ export const postsReducer = (state = initialState, action) => {
         allPosts: state.allPosts.filter( post => post.id !== action.payload),
         bookedPosts: state.bookedPosts.filter( post => post.id !== action.payload)
       }
+    case CREATE_POST:
+      return {
+        ...state,
+        allPosts: [{...action.payload}, ...state.allPosts]
+      }
     default:
       return state;
   }
 };
 
 export const loadPostsAction = () => ({ type: LOAD_POSTS, payload: DATA });
-export const toggleBooked = (id) => ({ type: TOGGLE_BOOKED, payload: id });
+export const toggleBooked = id => ({ type: TOGGLE_BOOKED, payload: id });
 export const deletePost = id => ({ type: DELETE_POST, payload: id});
+export const createPost = data => ({ type: CREATE_POST, payload: data});
