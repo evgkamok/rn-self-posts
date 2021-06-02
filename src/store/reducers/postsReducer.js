@@ -44,4 +44,4 @@ export const postsReducer = (state = initialState, action) => {
 export const loadPostsAction = () => ({ type: LOAD_POSTS, payload: DATA });
 export const toggleBooked = id => ({ type: TOGGLE_BOOKED, payload: id });
 export const deletePost = id => ({ type: DELETE_POST, payload: id});
-export const createPost = data => ({ type: CREATE_POST, payload: data});
+export const createPost = post => ({ type: CREATE_POST, payload: post});
