@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
+import { Button, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { PostList } from "../components/PostList";
 import { loadPostsAction } from "../store/reducers/postsReducer";
 
-export const MainScreen = ({ navigation }) => {
+export const MainScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadPostsAction());
   }, []);
+
 
   const allPosts = useSelector((state) => state.posts.allPosts);
 
@@ -20,6 +22,5 @@ export const MainScreen = ({ navigation }) => {
     });
   };
 
-  return <PostList data={allPosts} onOpen={openPostHandler} />;
-};
-``;
+  return <PostList data={allPosts} onOpen={openPostHandler} />
+}

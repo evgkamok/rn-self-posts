@@ -42,6 +42,7 @@ const navHeaderOptionsMainScreen = ({ navigation }) => ({
 const navHeaderOptionsPostScreen = ({ route }) => {
   const date = new Date(route.params.date).toLocaleDateString();
   const iconName = route.params.booked ? "ios-star" : "ios-star-outline";
+  const toggleBookedHandler = route.params.toggleBookedHandler
 
   return {
     headerTitle: `Post at ${date}`,
@@ -50,7 +51,7 @@ const navHeaderOptionsPostScreen = ({ route }) => {
         <Item
           title="bookmark star"
           iconName={iconName}
-          onPress={() => console.log("PRESS MENU")}
+          onPress={toggleBookedHandler}
         />
       </HeaderButtons>
     ),

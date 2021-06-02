@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,26 +10,44 @@ import {
 } from "react-native";
 import { DATA } from "../data";
 import { THEME } from "../theme";
+import { useDispatch } from "react-redux";
+import { toggleBooked, deletePost } from "../store/reducers/postsReducer";
 
-export const PostScreen = ({ route }) => {
-  const { postId } = route.params;
+export const PostScreen = ({ route, navigation }) => {
+  const { postId, booked } = route.params;
   const post = DATA.find((post) => post.id === postId);
+  const dispatch = useDispatch();
+
+  const toggleBookedHandler = useCallback(() => {
+    dispatch(toggleBooked(postId));
+    navigation.setParams({ booked: !booked });
+  }, [dispatch, postId, booked]);
+
+  useEffect(() => {
+    navigation.setParams({ toggleBookedHandler });
+  }, [toggleBookedHandler]);
 
   const removePostHandler = () => {
     Alert.alert(
       "Delete post",
-      "You sure want delete this post ?",
+      "You sure want to delete this post ?",
       [
         {
           text: "No",
-          onPress: () => console.log("No Pressed"),
-          style: "cancel"
+          style: "cancel",
         },
-        { text: "Yes", onPress: () => console.log("Yes Pressed"), style: "destructive"}
+        {
+          text: "Yes",
+          onPress: () => {
+            navigation.navigate("MainScreen")
+            dispatch(deletePost(postId));
+          },
+          style: "destructive",
+        },
       ],
-      {cancelable: true}
+      { cancelable: true }
     );
-  }
+  };
 
   return (
     <ScrollView>
@@ -37,7 +55,11 @@ export const PostScreen = ({ route }) => {
       <View style={styles.textWrap}>
         <Text style={styles.title}>{post.text}</Text>
       </View>
-      <Button title={"Delete post"} color={THEME.DANGER_COLOR} onPress={removePostHandler}/>
+      <Button
+        title={"Delete post"}
+        color={THEME.DANGER_COLOR}
+        onPress={removePostHandler}
+      />
     </ScrollView>
   );
 };
@@ -54,4 +76,3 @@ const styles = StyleSheet.create({
     fontFamily: "open-regular",
   },
 });
-
