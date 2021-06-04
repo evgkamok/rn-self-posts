@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PostList } from "../components/PostList";
-import { getPosts } from "../store/reducers/postsReducer";
+import { loadPosts } from "../store/reducers/postsReducer";
 
 export const MainScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, []);
-
+    dispatch(loadPosts());
+  }, [dispatch]);
 
   const allPosts = useSelector((state) => state.posts.allPosts);
 

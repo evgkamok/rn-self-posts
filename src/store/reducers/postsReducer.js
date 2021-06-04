@@ -44,7 +44,7 @@ export const postsReducer = (state = initialState, action) => {
   }
 };
 
-export const getPosts = () => async (dispatch) => {
+export const loadPosts = () => async (dispatch) => {
   try {
     const posts = await DB.getPosts();
     dispatch({
@@ -79,5 +79,18 @@ export const createPost = (post) => async (dispatch) => {
   });
 };
 
-export const toggleBooked = (id) => ({ type: TOGGLE_BOOKED, payload: id });
-export const deletePost = (id) => ({ type: DELETE_POST, payload: id });
+export const toggleBooked = post => async dispatch => {
+  await DB.updatePost(post)
+  dispatch({
+    type: TOGGLE_BOOKED,
+    payload: post.id
+  });
+}
+
+export const deletePost = id => async dispatch => {
+  await DB.deletePost(id)
+  return dispatch({
+    type: DELETE_POST,
+    payload: id
+  })
+}

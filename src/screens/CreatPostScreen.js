@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { createPost } from "../store/reducers/postsReducer";
-import { PhotoPicker } from "../components/PhotoPicker"
+import { PhotoPicker } from "../components/PhotoPicker";
 import { THEME } from "../theme";
 
 export const CreatPostScreen = ({ navigation }) => {
@@ -22,20 +22,19 @@ export const CreatPostScreen = ({ navigation }) => {
       img: imageUri,
       text: textInput,
       date: new Date().toJSON(),
-      booked: false,
+      booked: 0,
     };
     dispatch(createPost(post));
     navigation.navigate("MainScreen");
     setTextInput("");
-    setImageUri(null)
+    setImageUri(null);
   };
-
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.wrapper}>
-        <PhotoPicker setImageUri={setImageUri} image={imageUri}/>
-        
+        <PhotoPicker setImageUri={setImageUri} image={imageUri} />
+
         <TextInput
           style={styles.textInput}
           value={textInput}
@@ -43,7 +42,7 @@ export const CreatPostScreen = ({ navigation }) => {
           placeholder="Enter text post"
           multiline
         />
-        
+
         <Button
           title="Create new post"
           color={THEME.MAIN_COLOR}

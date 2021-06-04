@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 import { Post } from "../components/Post";
 
 export const PostList = ({ data, onOpen }) => {
+
+  
   if (!data.length) {
     return (
       <View style={styles.emptyData}>

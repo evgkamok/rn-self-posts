@@ -17,14 +17,16 @@ export class DB {
   }
 
   static getPosts() {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql("SELECT * FROM posts"),
+    return new Promise( (resolve, reject) => {
+      db.transaction( tx => {
+        tx.executeSql(
+          `SELECT * FROM posts`,
           [],
-          (_, result) => resolve(result.rows._array),
-          (_, error) => reject(error);
-      });
-    });
+          (_, result) => {resolve(result.rows._array)},
+          (_, error) => reject(error)
+        )
+      })
+    })
   }
 
   static createPost({ img, text, date, booked }) {
@@ -38,5 +40,31 @@ export class DB {
         );
       });
     });
+  }
+
+  static updatePost(post) {
+    return new Promise((resolve, reject) => {
+      db.transaction( tx => {
+        tx.executeSql(
+          `UPDATE posts SET booked = ? WHERE id = ?`,
+          [post.booked ? 0 : 1, post.id],
+          resolve,
+          (_, error) => reject(error)
+        )
+      })
+    })
+  }
+
+  static deletePost(id) {
+    return new Promise((resolve, reject) => {
+      db.transaction( tx => {
+        tx.executeSql(
+          `DELETE FROM posts WHERE id = ?`,
+          [id],
+          resolve,
+          (_, error) => reject(error)
+        )
+      })
+    })
   }
 }

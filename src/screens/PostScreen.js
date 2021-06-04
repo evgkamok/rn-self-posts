@@ -21,7 +21,7 @@ export const PostScreen = ({ route, navigation }) => {
 
 
   const toggleBookedHandler = useCallback(() => {
-    dispatch(toggleBooked(postId));
+    dispatch(toggleBooked(post));
     navigation.setParams({ booked: !booked });
   }, [dispatch, postId, booked]);
 
