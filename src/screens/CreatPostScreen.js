@@ -19,7 +19,6 @@ export const CreatPostScreen = ({ navigation }) => {
 
   const createHandler = () => {
     const post = {
-      id: Date.now().toString(),
       img: imageUri,
       text: textInput,
       date: new Date().toJSON(),

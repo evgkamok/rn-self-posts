@@ -1,9 +1,10 @@
-import { DATA } from "../../data";
+import { DB } from "../../db";
 import { CREATE_POST, DELETE_POST, LOAD_POSTS, TOGGLE_BOOKED } from "../types";
+import * as FileSystem from "expo-file-system";
 
 const initialState = {
-  allPosts: null,
-  bookedPosts: null,
+  allPosts: [],
+  bookedPosts: [],
 };
 
 export const postsReducer = (state = initialState, action) => {
@@ -28,20 +29,55 @@ export const postsReducer = (state = initialState, action) => {
     case DELETE_POST:
       return {
         ...state,
-        allPosts: state.allPosts.filter( post => post.id !== action.payload),
-        bookedPosts: state.bookedPosts.filter( post => post.id !== action.payload)
-      }
+        allPosts: state.allPosts.filter((post) => post.id !== action.payload),
+        bookedPosts: state.bookedPosts.filter(
+          (post) => post.id !== action.payload
+        ),
+      };
     case CREATE_POST:
       return {
         ...state,
-        allPosts: [{...action.payload}, ...state.allPosts]
-      }
+        allPosts: [action.payload, ...state.allPosts],
+      };
     default:
       return state;
   }
 };
 
-export const loadPostsAction = () => ({ type: LOAD_POSTS, payload: DATA });
-export const toggleBooked = id => ({ type: TOGGLE_BOOKED, payload: id });
-export const deletePost = id => ({ type: DELETE_POST, payload: id});
-export const createPost = post => ({ type: CREATE_POST, payload: post});
+export const getPosts = () => async (dispatch) => {
+  try {
+    const posts = await DB.getPosts();
+    dispatch({
+      type: LOAD_POSTS,
+      payload: posts,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const createPost = (post) => async (dispatch) => {
+  const imgFileName = post.img.split("/").pop();
+  const localAppPath = FileSystem.documentDirectory + imgFileName;
+
+  try {
+    await FileSystem.moveAsync({
+      to: localAppPath,
+      from: post.img,
+    });
+  } catch (e) {
+    console.log("Error", e);
+  }
+
+  const payload = {...post,img: localAppPath};
+  const id = await DB.createPost(payload);
+  payload.id = id;
+
+  dispatch({
+    type: CREATE_POST,
+    payload: payload
+  });
+};
+
+export const toggleBooked = (id) => ({ type: TOGGLE_BOOKED, payload: id });
+export const deletePost = (id) => ({ type: DELETE_POST, payload: id });
